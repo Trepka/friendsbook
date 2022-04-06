@@ -16,19 +16,25 @@ type Storage struct {
 	UsersRepository database.PostgressUsersStorage
 }
 
-func StartApp() {
+func StartApp(port string) {
 	usersDb := database.ConnectDB()
-	r := chi.NewRouter()
 	storage := Storage{}
 	storage.UsersRepository = usersDb
-	r.Get("/user", storage.GetAllUsers)
-	r.Get("/user/{id}", storage.GetUser)
-	r.Post("/user", storage.AddUser)
-	r.Get("/friends/{id}", storage.GetFriends)
-	r.Post("/make_friends", storage.MakeFriends)
-	r.Delete("/user/{id}", storage.DeleteUser)
-	r.Put("/user/{id}", storage.UpdateUserAge)
-	http.ListenAndServe(":8080", r)
+
+	router := chi.NewRouter()
+
+	SetHandlers(storage, router)
+	http.ListenAndServe(":"+port, router)
+}
+
+func SetHandlers(storage Storage, router *chi.Mux) {
+	router.Get("/user", storage.GetAllUsers)
+	router.Get("/user/{id}", storage.GetUser)
+	router.Post("/user", storage.AddUser)
+	router.Get("/friends/{id}", storage.GetFriends)
+	router.Post("/make_friends", storage.MakeFriends)
+	router.Delete("/user/{id}", storage.DeleteUser)
+	router.Put("/user/{id}", storage.UpdateUserAge)
 }
 
 func (s *Storage) GetAllUsers(w http.ResponseWriter, r *http.Request) {
