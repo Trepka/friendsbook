@@ -9,7 +9,7 @@ import (
 var port *int
 
 func init() {
-	port = flag.Int("port", 3000, "port number")
+	port = flag.Int("port", 8080, "port number")
 }
 
 func main() {
