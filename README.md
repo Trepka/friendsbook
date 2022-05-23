@@ -1,6 +1,6 @@
 # Bookslib
 
-RestAPI app simulate minimum functionalit of social net. Supports get, post, delete queries.
+RestAPI app simulate minimum functionality of social net. Supports get, post, delete queries.
 
 ## Features
 
